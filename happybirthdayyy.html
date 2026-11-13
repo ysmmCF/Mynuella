@@ -416,15 +416,12 @@ body {
   justify-content: center;
   width: 53px;
   height: 53px;
-
   border-radius: 50%;
   background: rgba(255,255,255,.55);
   border: 1px solid rgba(86,52,119,.17);
-
   color: #684486;
   font-size: 29px;
   line-height: 1;
-
   box-shadow: 0 3px 10px rgba(86,52,119,.07);
   transition: transform .35s ease, background .35s ease;
 }
@@ -463,11 +460,13 @@ body {
 .lista-musicas a {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
-  padding: 11px 13px;
+  padding: 13px;
 
   color: #563477;
   font-size: 14px;
+  letter-spacing: 2px;
   text-decoration: none;
 
   background: rgba(255,255,255,.38);
@@ -509,15 +508,12 @@ body {
   align-items: flex-start;
   gap: 10px;
   padding: 11px 13px;
-
   color: #563477;
   font-size: 14px;
   line-height: 1.5;
-
   background: rgba(255,255,255,.38);
   border: 1px solid rgba(255,255,255,.55);
   border-radius: 10px;
-
   box-shadow: 0 3px 9px rgba(86,52,119,.035);
   transition: background .2s, transform .2s;
 }
@@ -597,17 +593,14 @@ body {
   gap: 13px;
   width: 100%;
   padding: 10px 12px;
-
   border: 1px solid rgba(255,255,255,.65);
   border-radius: 14px;
   background: rgba(255,255,255,.34);
-
   cursor: pointer;
   color: #563477;
   font-family: inherit;
   font-size: 14px;
   text-align: left;
-
   box-shadow: 0 3px 10px rgba(86,52,119,.04);
   transition: background .25s, transform .25s, box-shadow .25s;
 }
@@ -632,8 +625,6 @@ body {
   border: 2px solid rgba(86,52,119,.5);
   transition: transform .3s ease;
 }
-
-/* ENQUADRAMENTO DA GANJI E DA MAVIS */
 
 .personagem img.imagem-enquadrada-topo {
   object-position: center top;
@@ -724,16 +715,13 @@ body {
   padding: 35px;
   border: 1px solid rgba(255,255,255,.8);
   border-radius: 20px;
-
   background:
     radial-gradient(ellipse at top, rgba(255,255,255,.65), transparent 55%),
     linear-gradient(145deg, #f2e8f8, #e5d3f0);
-
   color: #49305e;
   box-shadow:
     0 15px 45px rgba(0,0,0,.3),
     0 0 25px rgba(213,181,235,.15);
-
   animation: subirModal .45s cubic-bezier(.22,1,.36,1);
 }
 
@@ -873,8 +861,6 @@ body {
   box-shadow: 0 5px 16px rgba(86,52,119,.16);
 }
 
-/* ENQUADRAMENTO NO MODAL DA GANJI E DA MAVIS */
-
 .foto-personagem-modal.imagem-enquadrada-topo {
   object-position: center top;
 }
@@ -912,7 +898,7 @@ body {
   }
 }
 
-/* ACESSIBILIDADE: REDUZIR MOVIMENTOS */
+/* ACESSIBILIDADE */
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -945,7 +931,7 @@ body {
 
 <div class="carregamento" id="carregamento">
   <div class="carregamento-icone"></div>
-  <p>Preparando uma surpresa...</p>
+  <p>Preparando...</p>
   <small>Um instante, por favor ♡</small>
 </div>
 
@@ -992,14 +978,16 @@ body {
 
   </div>
 
+  <!-- AS MÚSICAS APARECEM APENAS COMO NÚMEROS -->
+
   <div class="lista-musicas" id="listaMusicas">
-    <a href="https://open.spotify.com/track/1kgTmbinMJ06pV1zJj2fIF?si=w6Ngp5hhScuQg8DZuw9agA&utm_source=copy-link" target="_blank" rel="noopener">Pra Ver Se Cola — Larissa Manoela</a>
+    <a href="https://open.spotify.com/track/1kgTmbinMJ06pV1zJj2fIF?si=w6Ngp5hhScuQg8DZuw9agA&utm_source=copy-link" target="_blank" rel="noopener">01</a>
 
-    <a href="https://open.spotify.com/track/4U45aEWtQhrm8A5mxPaFZ7?si=EkpzDHQERQWwqAm9bN7j1A&utm_source=copy-link" target="_blank" rel="noopener">Vienna — Billy Joel</a>
+    <a href="https://open.spotify.com/track/4U45aEWtQhrm8A5mxPaFZ7?si=EkpzDHQERQWwqAm9bN7j1A&utm_source=copy-link" target="_blank" rel="noopener">02</a>
 
-    <a href="https://open.spotify.com/track/0DO203FidgOktbX2Ly1jtr?si=6SltOpAeRZiXkcssSkvmwA&utm_source=copy-link" target="_blank" rel="noopener">Parabéns da Xuxa — Xuxa</a>
+    <a href="https://open.spotify.com/track/0DO203FidgOktbX2Ly1jtr?si=6SltOpAeRZiXkcssSkvmwA&utm_source=copy-link" target="_blank" rel="noopener">03</a>
 
-    <a href="https://open.spotify.com/track/6BcqNZ7D3gI0ALivZMAvux?si=1VaYCsH9TouvK2crU-cu1A&utm_source=copy-link" target="_blank" rel="noopener">Levo Comigo — Restart</a>
+    <a href="https://open.spotify.com/track/6BcqNZ7D3gI0ALivZMAvux?si=1VaYCsH9TouvK2crU-cu1A&utm_source=copy-link" target="_blank" rel="noopener">04</a>
   </div>
 
   <div class="divisoria">✧</div>
@@ -1011,8 +999,6 @@ body {
   </section>
 
   <div class="divisoria">♡</div>
-
-  <!-- PRIMEIRA LISTA -->
 
   <button class="atalho" onclick="alternarListaAmor()" aria-expanded="false" aria-controls="listaAmor">
     <span class="icone">♡</span>
@@ -1039,8 +1025,6 @@ body {
     <div><span>16.</span> A sua voz.</div>
     <div><span>17.</span> E o simples fato de você está sempre comigo, mesmo longe.</div>
   </div>
-
-  <!-- SEGUNDA LISTA -->
 
   <div class="divisoria">✧</div>
 
@@ -1165,8 +1149,6 @@ function iniciarTransicao() {
     video1.style.display = "none";
   }, 2000);
 }
-
-/* DETECTAR OS DOIS SEGUNDOS FINAIS */
 
 video1.addEventListener("timeupdate", () => {
   if (
@@ -1315,7 +1297,6 @@ personagens.forEach((personagem, indice) => {
   const botao = document.createElement("button");
   botao.className = "personagem";
 
-  // Aplica o enquadramento superior somente à Ganji e à Mavis.
   const classeEnquadramento = (indice === 0 || indice === 2)
     ? "imagem-enquadrada-topo"
     : "";
@@ -1339,7 +1320,6 @@ personagens.forEach((personagem, indice) => {
 function abrirPersonagem(indice) {
   const personagem = personagens[indice];
 
-  // A mesma regra de enquadramento é aplicada à imagem do modal.
   const classeEnquadramento = (indice === 0 || indice === 2)
     ? "imagem-enquadrada-topo"
     : "";
