@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uma surpresa para você</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #17101f;
+  font-family: Georgia, serif;
+  overflow: hidden;
+}
+
+/* VÍDEOS */
+
+.video {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#video1 {
+  z-index: 0;
+}
+
+#video2 {
+  display: none;
+  opacity: 0;
+  z-index: 1;
+  transition: opacity 2s ease;
+}
+
+/* BOTÃO PULAR */
+
+.pular-video {
+  position: fixed;
+  z-index: 4;
+  top: 20px;
+  right: 20px;
+  padding: 11px 20px;
+  border: 1px solid rgba(255,255,255,.6);
+  border-radius: 25px;
+  background: rgba(35,20,45,.45);
+  color: white;
+  font-family: Georgia, serif;
+  font-size: 14px;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+  transition: background .2s, transform .2s;
+}
+
+.pular-video:hover {
+  background: rgba(35,20,45,.7);
+  transform: translateY(-2px);
+}
+
+/* PAINEL PRINCIPAL */
+
+.painel {
+  position: fixed;
+  z-index: 5;
+  top: 7vh;
+  bottom: 7vh;
+  left: 18px;
+  width: 370px;
+  max-width: 85vw;
+  padding: 27px 23px;
+  overflow-y: auto;
+
+  background:
+    radial-gradient(ellipse at top, rgba(255,255,255,.55), transparent 55%),
+    linear-gradient(155deg, #eadcf3 0%, #d9c2e9 55%, #c9addf 100%);
+
+  border: 1px solid rgba(255,255,255,.7);
+  border-radius: 23px;
+  box-shadow:
+    0 15px 45px rgba(0,0,0,.28),
+    inset 0 0 25px rgba(255,255,255,.25);
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-35px);
+
+  transition:
+    opacity .7s ease,
+    transform .7s cubic-bezier(.22,1,.36,1),
+    visibility .7s;
+}
+
+.painel.visivel {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.painel::-webkit-scrollbar {
+  width: 5px;
+}
+
+.painel::-webkit-scrollbar-thumb {
+  background: rgba(86,52,119,.35);
+  border-radius: 10px;
+}
+
+.painel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* CABEÇALHO */
+
+.cabecalho-painel {
+  text-align: center;
+  padding: 7px 0 20px;
+  border-bottom: 1px solid rgba(86,52,119,.2);
+}
+
+.detalhe-cabecalho {
+  display: block;
+  color: #8662a4;
+  font-size: 15px;
+  letter-spacing: 7px;
+  margin-bottom: 9px;
+}
+
+.painel h2 {
+  color: #563477;
+  font-size: 25px;
+  font-weight: normal;
+  letter-spacing: .5px;
+  margin: 0;
+}
+
+.subtitulo-painel {
+  color: #795d91;
+  font-size: 12px;
+  margin-top: 9px;
+  letter-spacing: .4px;
+}
+
+.fechar-painel {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  border: none;
+  background: transparent;
+  color: #694582;
+  font-size: 25px;
+  cursor: pointer;
+  transition: transform .2s;
+}
+
+.fechar-painel:hover {
+  transform: rotate(90deg);
+}
+
+/* ATALHOS */
+
+.atalhos {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 13px;
+  margin: 22px 0 0;
+}
+
+.atalho {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 125px;
+  padding: 16px 12px;
+
+  border: 1px solid rgba(255,255,255,.65);
+  border-radius: 17px;
+
+  background: rgba(255,255,255,.32);
+  box-shadow: 0 4px 13px rgba(86,52,119,.07);
+
+  color: #563477;
+  font-family: inherit;
+  text-align: center;
+  cursor: pointer;
+
+  transition:
+    background .25s ease,
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.atalho:hover {
+  background: rgba(255,255,255,.55);
+  transform: translateY(-2px);
+  box-shadow: 0 7px 17px rgba(86,52,119,.12);
+}
+
+.icone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 53px;
+  height: 53px;
+
+  border-radius: 50%;
+  background: rgba(255,255,255,.5);
+  border: 1px solid rgba(86,52,119,.17);
+
+  color: #684486;
+  font-size: 29px;
+  line-height: 1;
+
+  transition: transform .25s ease;
+}
+
+.atalho:hover .icone {
+  transform: scale(1.08);
+}
+
+.titulo-atalho {
+  color: #563477;
+  font-size: 16px;
+  letter-spacing: .2px;
+}
+
+.descricao-atalho {
+  color: #806797;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* LISTA DE MÚSICAS */
+
+.lista-musicas {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px 5px;
+  animation: aparecerLista .35s ease;
+}
+
+.lista-musicas.aberta {
+  display: flex;
+}
+
+.lista-musicas a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 13px;
+
+  color: #563477;
+  font-size: 14px;
+  text-decoration: none;
+
+  background: rgba(255,255,255,.32);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 10px;
+
+  transition: background .2s, transform .2s;
+}
+
+.lista-musicas a::before {
+  content: "♫";
+  color: #8662a4;
+  font-size: 17px;
+}
+
+.lista-musicas a:hover {
+  background: rgba(255,255,255,.65);
+  transform: translateX(3px);
+}
+
+/* LISTAS DE 17 ITENS */
+
+.lista-amor {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px 5px;
+  animation: aparecerLista .35s ease;
+}
+
+.lista-amor.aberta {
+  display: flex;
+}
+
+.lista-amor div {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 11px 13px;
+
+  color: #563477;
+  font-size: 14px;
+  line-height: 1.5;
+
+  background: rgba(255,255,255,.32);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 10px;
+
+  transition: background .2s, transform .2s;
+}
+
+.lista-amor div:hover {
+  background: rgba(255,255,255,.6);
+  transform: translateX(3px);
+}
+
+.lista-amor span {
+  color: #8662a4;
+  font-size: 12px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+@keyframes aparecerLista {
+  from {
+    opacity: 0;
+    transform: translateY(-7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* DIVISÓRIA */
+
+.divisoria {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 23px 0 20px;
+  color: #8968a2;
+  font-size: 13px;
+}
+
+.divisoria::before,
+.divisoria::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(86,52,119,.2);
+}
+
+/* PERSONAGENS */
+
+.secao-personagens {
+  margin-top: 0;
+}
+
+.secao-personagens h3 {
+  color: #563477;
+  font-size: 17px;
+  font-weight: normal;
+  margin: 0 0 7px;
+  text-align: center;
+}
+
+.subtitulo-personagens {
+  color: #806797;
+  font-size: 12px;
+  text-align: center;
+  margin: 0 0 17px;
+}
+
+.personagens {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.personagem {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  width: 100%;
+  padding: 10px 12px;
+
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: 14px;
+  background: rgba(255,255,255,.27);
+
+  cursor: pointer;
+  color: #563477;
+  font-family: inherit;
+  font-size: 14px;
+  text-align: left;
+
+  transition: background .2s, transform .2s;
+}
+
+.personagem:hover {
+  background: rgba(255,255,255,.55);
+  transform: translateX(3px);
+}
+
+.personagem img,
+.personagem .simbolo {
+  flex-shrink: 0;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,.55);
+  border: 2px solid rgba(86,52,119,.5);
+  transition: transform .2s;
+}
+
+/* ENQUADRAMENTO DA GANJI E DA MAVIS */
+
+.personagem img.imagem-enquadrada-topo {
+  object-position: center top;
+}
+
+.personagem .simbolo {
+  font-size: 25px;
+  color: #79549a;
+}
+
+.personagem:hover img,
+.personagem:hover .simbolo {
+  transform: scale(1.06);
+}
+
+.nome-personagem {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.nome-personagem strong {
+  font-size: 14px;
+  font-weight: normal;
+  color: #563477;
+}
+
+.nome-personagem small {
+  font-size: 11px;
+  color: #806797;
+}
+
+/* BOTÃO REABRIR PAINEL */
+
+.reabrir-painel {
+  display: none;
+  position: fixed;
+  z-index: 6;
+  left: 0;
+  top: 45%;
+  padding: 13px 12px;
+  border: none;
+  border-radius: 0 12px 12px 0;
+  background: #563477;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* MODAIS */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(15,8,22,.72);
+  backdrop-filter: blur(4px);
+}
+
+.modal.aberto {
+  display: flex;
+  animation: surgirModal .3s ease;
+}
+
+@keyframes surgirModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.conteudo-modal {
+  position: relative;
+  width: 550px;
+  max-width: 95vw;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 35px;
+  border: 1px solid rgba(255,255,255,.7);
+  border-radius: 20px;
+  background: linear-gradient(145deg, #f2e8f8, #e5d3f0);
+  color: #49305e;
+  box-shadow: 0 15px 45px rgba(0,0,0,.3);
+}
+
+.conteudo-modal h2 {
+  text-align: center;
+  margin-top: 5px;
+  color: #563477;
+  font-weight: normal;
+}
+
+.fechar-modal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  border: none;
+  background: transparent;
+  color: #563477;
+  font-size: 27px;
+  cursor: pointer;
+}
+
+/* ANIMAÇÃO DO ENVELOPE */
+
+.animacao-envelope {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px auto 25px;
+  height: 100px;
+}
+
+.envelope {
+  position: relative;
+  width: 110px;
+  height: 75px;
+  background: #b995d1;
+  border-radius: 5px;
+  animation: surgirEnvelope .6s ease both;
+}
+
+.envelope-corpo {
+  position: absolute;
+  inset: 0;
+  background: #c9a9df;
+  border-radius: 5px;
+  clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+}
+
+.envelope-aba {
+  position: absolute;
+  inset: 0;
+  background: #a77bc4;
+  clip-path: polygon(0 0,100% 0,50% 65%);
+  transform-origin: top;
+  animation: abrirEnvelope .8s ease forwards;
+  animation-delay: .5s;
+  z-index: 2;
+}
+
+.envelope-coracao {
+  position: absolute;
+  z-index: 3;
+  top: 28px;
+  left: 42px;
+  color: #753d83;
+  font-size: 25px;
+  animation: subirCoracao .8s ease forwards;
+  animation-delay: 1s;
+}
+
+@keyframes abrirEnvelope {
+  to { transform: rotateX(180deg); }
+}
+
+@keyframes subirCoracao {
+  to {
+    transform: translateY(-25px);
+    opacity: 0;
+  }
+}
+
+@keyframes surgirEnvelope {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* TEXTO DA CARTA */
+
+#conteudoCarta {
+  opacity: 0;
+  transition: opacity .8s ease;
+}
+
+#conteudoCarta.revelado {
+  opacity: 1;
+}
+
+.texto-carta {
+  white-space: pre-line;
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+/* PERSONAGEM NO MODAL */
+
+.foto-personagem-modal {
+  display: block;
+  width: 180px;
+  height: 180px;
+  margin: 15px auto;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #563477;
+}
+
+/* ENQUADRAMENTO NO MODAL DA GANJI E DA MAVIS */
+
+.foto-personagem-modal.imagem-enquadrada-topo {
+  object-position: center top;
+}
+
+.descricao-personagem {
+  text-align: center;
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+@media (max-width: 500px) {
+  .painel {
+    left: 10px;
+    width: 88vw;
+    top: 5vh;
+    bottom: 5vh;
+    padding: 20px;
+  }
+
+  .conteudo-modal {
+    padding: 28px 22px;
+  }
+
+  .atalho {
+    min-height: 115px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- PRIMEIRO VÍDEO -->
+
+<video id="video1" class="video" autoplay muted playsinline preload="auto">
+  <source src="https://ysmmCF.github.io/Mynuella/683247007_1794519012302762.mp4" type="video/mp4">
+</video>
+
+<!-- SEGUNDO VÍDEO -->
+
+<video id="video2" class="video" muted playsinline loop preload="auto">
+  <source src="https://ysmmCF.github.io/Mynuella/653606933_1794519814944647.mp4" type="video/mp4">
+</video>
+
+<button class="pular-video" id="botaoPular" onclick="iniciarTransicao()">
+  Pular vídeo →
+</button>
+
+<!-- PAINEL -->
+
+<aside class="painel" id="painel">
+
+  <button class="fechar-painel" onclick="fecharPainel()">×</button>
+
+  <header class="cabecalho-painel">
+    <span class="detalhe-cabecalho">✧ ♡ ✧</span>
+    <h2>Para você</h2>
+    <p class="subtitulo-painel">Um pequeno cantinho preparado com carinho</p>
+  </header>
+
+  <div class="atalhos">
+
+    <button class="atalho" onclick="abrirCarta()">
+      <span class="icone">✉</span>
+      <span class="titulo-atalho">Uma cartinha para você</span>
+      <span class="descricao-atalho">Tenho algumas palavras para te dizer</span>
+    </button>
+
+    <button class="atalho" onclick="alternarMusicas()">
+      <span class="icone">♫</span>
+      <span class="titulo-atalho">Músicas que te dedico</span>
+      <span class="descricao-atalho">Algumas canções que me lembram você</span>
+    </button>
+
+  </div>
+
+  <div class="lista-musicas" id="listaMusicas">
+    <a href="https://open.spotify.com/track/1kgTmbinMJ06pV1zJj2fIF?si=w6Ngp5hhScuQg8DZuw9agA&utm_source=copy-link" target="_blank" rel="noopener">Pra Ver Se Cola — Larissa Manoela</a>
+
+    <a href="https://open.spotify.com/track/4U45aEWtQhrm8A5mxPaFZ7?si=EkpzDHQERQWwqAm9bN7j1A&utm_source=copy-link" target="_blank" rel="noopener">Vienna — Billy Joel</a>
+
+    <a href="https://open.spotify.com/track/0DO203FidgOktbX2Ly1jtr?si=6SltOpAeRZiXkcssSkvmwA&utm_source=copy-link" target="_blank" rel="noopener">Parabéns da Xuxa — Xuxa</a>
+
+    <a href="https://open.spotify.com/track/6BcqNZ7D3gI0ALivZMAvux?si=1VaYCsH9TouvK2crU-cu1A&utm_source=copy-link" target="_blank" rel="noopener">Levo Comigo — Restart</a>
+  </div>
+
+  <div class="divisoria">✧</div>
+
+  <section class="secao-personagens">
+    <h3>Personagens que vejo em você</h3>
+    <p class="subtitulo-personagens">Será que você reconhece cada um?</p>
+    <div class="personagens" id="personagens"></div>
+  </section>
+
+  <div class="divisoria">♡</div>
+
+  <!-- PRIMEIRA LISTA -->
+
+  <button class="atalho" onclick="alternarListaAmor()">
+    <span class="icone">♡</span>
+    <span class="titulo-atalho">17 coisas que amo em você</span>
+    <span class="descricao-atalho">Uma pequena lista de motivos</span>
+  </button>
+
+  <div class="lista-amor" id="listaAmor">
+    <div><span>01.</span> Sua risada.</div>
+    <div><span>02.</span> Sua personalidade.</div>
+    <div><span>03.</span> Seu sua gentileza.</div>
+    <div><span>04.</span> Seu sorriso.</div>
+    <div><span>05.</span> Sua seus desenhos.</div>
+    <div><span>06.</span> O seu jeito de conversar.</div>
+    <div><span>07.</span> Como você conta as pequenas coisas do seu dia.</div>
+    <div><span>08.</span> Seus gostos</div>
+    <div><span>09.</span> Sua sinceridade.</div>
+    <div><span>10.</span> Seu jeito de demonstrar carinho em pequenas mensagens </div>
+    <div><span>11.</span> Quando você se anima.</div>
+    <div><span>12.</span> A forma como você se dedicar nas coisas.</div>
+    <div><span>13.</span> Sua forma de pensar nos outros.</div>
+    <div><span>14.</span> As nossas conversas.</div>
+    <div><span>15.</span> A sua amizade.</div>
+    <div><span>16.</span> A sua voz.</div>
+    <div><span>17.</span> E o simples fato de você está sempre comigo, mesmo longe.</div>
+  </div>
+
+  <!-- SEGUNDA LISTA -->
+
+  <div class="divisoria">✧</div>
+
+  <button class="atalho" onclick="alternarLembrancas()">
+    <span class="icone">❀</span>
+    <span class="titulo-atalho">17 coisas que me lembram você</span>
+    <span class="descricao-atalho">Pequenos detalhes que fazem pensar em você</span>
+  </button>
+
+  <div class="lista-amor" id="listaLembrancas">
+    <div><span>01.</span> Desenhos </div>
+    <div><span>02.</span> Kuromi </div>
+    <div><span>03.</span> ROXO </div>
+    <div><span>04.</span> Bonecos pequenos, especificamente esses sortidos</div>
+    <div><span>05.</span> Pulseiras de miçanga </div>
+    <div><span>06.</span> Pokemon </div>
+    <div><span>07.</span> Céu da manhã</div>
+    <div><span>08.</span> Passeios no zoológico (Sempre lembro da gente se perdendo)</div>
+    <div><span>09.</span> Qualquer coisa envolvendo os Estados Unidos (a única coisa boa desse país é você)</div>
+    <div><span>10.</span> Five Night at Freddy (O FOXY ESPECIFICAMENTE ME LEMBRA MUITO VOCE)</div>
+    <div><span>11.</span> Hotel Transilvânia</div>
+    <div><span>12.</span> Crocs </div>
+    <div><span>13.</span> Tacos (ESSA É MUITO VERDADEJRA VEY AKAKAKKAAK)</div>
+    <div><span>14.</span> 💜 </div>
+    <div><span>15.</span> o jogo da bolinha</div>
+    <div><span>16.</span> MUDER MISTERY </div>
+    <div><span>17.</span> Identivy V</div>
+  </div>
+
+</aside>
+
+<button class="reabrir-painel" id="reabrirPainel" onclick="abrirPainel()">›</button>
+
+<!-- MODAL DA CARTA -->
+
+<div class="modal" id="modalCarta">
+  <div class="conteudo-modal">
+
+    <button class="fechar-modal" onclick="fecharCarta()">×</button>
+
+    <div class="animacao-envelope" id="animacaoEnvelope">
+      <div class="envelope">
+        <div class="envelope-corpo"></div>
+        <div class="envelope-aba"></div>
+        <div class="envelope-coracao">♥</div>
+      </div>
+    </div>
+
+    <div id="conteudoCarta">
+      <h2>Uma cartinha para você ♡</h2>
+      <div class="texto-carta" id="textoCarta"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL DOS PERSONAGENS -->
+
+<div class="modal" id="modalPersonagem">
+  <div class="conteudo-modal">
+    <button class="fechar-modal" onclick="fecharPersonagem()">×</button>
+    <div id="detalhesPersonagem"></div>
+  </div>
+</div>
+
+<script>
+
+/* TRANSIÇÃO ENTRE OS VÍDEOS */
+
+const video1 = document.getElementById("video1");
+const video2 = document.getElementById("video2");
+const painel = document.getElementById("painel");
+const botaoPular = document.getElementById("botaoPular");
+
+let transicaoIniciada = false;
+
+function iniciarTransicao() {
+  if (transicaoIniciada) return;
+
+  transicaoIniciada = true;
+  botaoPular.style.display = "none";
+
+  video2.style.display = "block";
+  video2.currentTime = 0;
+  video2.style.opacity = "0";
+
+  const promessa = video2.play();
+
+  if (promessa && promessa.catch) {
+    promessa.catch(() => {});
+  }
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      video2.style.opacity = "1";
+    });
+  });
+
+  // O painel começa a aparecer durante a transição dos vídeos.
+  setTimeout(() => {
+    painel.classList.add("visivel");
+  }, 700);
+
+  // O primeiro vídeo desaparece ao final da transição.
+  setTimeout(() => {
+    video1.pause();
+    video1.style.display = "none";
+  }, 2000);
+}
+
+/* DETECTAR OS DOIS SEGUNDOS FINAIS */
+
+video1.addEventListener("timeupdate", () => {
+  if (
+    !transicaoIniciada &&
+    Number.isFinite(video1.duration) &&
+    video1.duration > 0 &&
+    video1.duration - video1.currentTime <= 2
+  ) {
+    iniciarTransicao();
+  }
+});
+
+video1.addEventListener("ended", iniciarTransicao);
+
+
+/* PAINEL */
+
+function fecharPainel() {
+  painel.classList.remove("visivel");
+
+  setTimeout(() => {
+    if (!painel.classList.contains("visivel")) {
+      document.getElementById("reabrirPainel").style.display = "block";
+    }
+  }, 500);
+}
+
+function abrirPainel() {
+  document.getElementById("reabrirPainel").style.display = "none";
+
+  requestAnimationFrame(() => {
+    painel.classList.add("visivel");
+  });
+}
+
+
+/* MÚSICAS */
+
+function alternarMusicas() {
+  document.getElementById("listaMusicas").classList.toggle("aberta");
+}
+
+
+/* 17 COISAS QUE AMO EM VOCÊ */
+
+function alternarListaAmor() {
+  document.getElementById("listaAmor").classList.toggle("aberta");
+}
+
+
+/* 17 COISAS QUE ME LEMBRAM VOCÊ */
+
+function alternarLembrancas() {
+  document.getElementById("listaLembrancas").classList.toggle("aberta");
+}
+
+
+/* CARTA */
+
+const texto = `My Nuella,
+
+Feliz aniversário, meu amorrrrr
+
+ 17 anos de uma das pessoas que eu mais amo nessa vida. Acho que tivemos mais tempo de amizade à distância do que uma do lado da outra, mas isso nunca mudou em cada como eu te considero. Você é a pessoa mais presente na minha vida. Aquela que sempre soube de tudo.
+   Eu te amo, e acho que comecei a falar com muita frequência, porque é verdade. Não se apaixonar por você é a coisa mais difícil do mundo. Uma risada linda, fácil de conversar, gentil e determinada.
+   Eu lembro do EXATO dia que começamos a conversar. Não demorou uma semana para você estar no meu top 3 pessoas favoritas, mesmo o ano sendo 2020, ONDE TODO MUNDK SEM EXCEÇÃO ERA ESTRANHO KAKAKAKAK
+   Não posso dizer que apenas uma coisa é o seu melhor ponto, porque você é tudo de mais incrível que tem.
+   Você é o meu orgulho. O orgulho de todo mundo que tem o prazer de conviver com você minimamente. Inteligente, linda, musical, bilíngue, artista e jogadora CONSIDERADA UMA DAS MELHORES DO SEU JOGO, você é incrível.
+   Eu te amo, Mavys.
+   Te amo mais do que é possível dizer com palavras. 
+   E ME DESCULPA O VÍDEO SER DE IA TÁ? SEI QUE É UMA OFENSA, MAS DESENHAR TÁ FORA DOS MEUS LIMITES
+   Espero de verdade que nossa amizade seja eterna, e já provamos que distância NUNCA vai ser barreira.
+   Com carinho, Yasmim`;
+
+document.getElementById("textoCarta").textContent = texto;
+
+function abrirCarta() {
+  const modal = document.getElementById("modalCarta");
+  const conteudo = document.getElementById("conteudoCarta");
+  const envelope = document.getElementById("animacaoEnvelope");
+
+  modal.classList.add("aberto");
+  conteudo.classList.remove("revelado");
+
+  envelope.style.display = "flex";
+
+  envelope.innerHTML = `
+    <div class="envelope">
+      <div class="envelope-corpo"></div>
+      <div class="envelope-aba"></div>
+      <div class="envelope-coracao">♥</div>
+    </div>
+  `;
+
+  setTimeout(() => {
+    if (modal.classList.contains("aberto")) {
+      envelope.style.display = "none";
+      conteudo.classList.add("revelado");
+    }
+  }, 1800);
+}
+
+function fecharCarta() {
+  document.getElementById("modalCarta").classList.remove("aberto");
+}
+
+
+/* PERSONAGENS */
+
+const personagens = [
+  {
+    nome: "Ganji",
+    foto: "https://static.wikia.nocookie.net/id5/images/7/7c/Batter.png/revision/latest?cb=20241025215824",
+    simbolo: "✿",
+    descricao: " Esse não é por ele ter uma personalidade ou jeito parecido com o seu (Não sei a personalidade), mas eu não posso falar de personagem que me lembram você, SEM CITAR O GANJI."
+  },
+  {
+    nome: "Mia (diário de uma princesa)",
+    foto: "https://conteudo.imguol.com.br/c/entretenimento/cb/2017/05/23/cena-de-o-diario-da-princesa-de-garry-marshall-1495567504421_v2_450x337.jpg.webp",
+    simbolo: "♡",
+    descricao: "Bom, essa personagem me lembra um pouco você pelo seu jeito. A Mia é tímida (pelo menos no início) e meio desajeitada, mas é criativa e bem ironica. Ela aprende a ser mais confiante enquanto se desenvolve como princesa, sem abandonar o que gosta de fazer, que é o que eu quero pra você, mais confiança, como a princesa (pelo menos de alma) que você é."
+  },
+  {
+    nome: "Mavis",
+    foto: "https://static.wikia.nocookie.net/herois/images/f/fc/HT2_Mavis_Dracula.png/revision/latest?cb=20241201115452&path-prefix=pt-br",
+    simbolo: "✧",
+    descricao: " Bomm, te vejo a Mavis (coincidentemente) porque como ela, você é gentil e gosta de ajudar os outros. É determinada (as vezes teimosa) e sempre se esforça no que quer. Além de sonhadora como ela"
+  }
+];
+
+const containerPersonagens = document.getElementById("personagens");
+
+personagens.forEach((personagem, indice) => {
+  const botao = document.createElement("button");
+  botao.className = "personagem";
+
+  // Aplica o enquadramento superior somente à Ganji e à Mavis.
+  const classeEnquadramento = (indice === 0 || indice === 2)
+    ? "imagem-enquadrada-topo"
+    : "";
+
+  const imagem = personagem.foto
+    ? `<img class="${classeEnquadramento}" src="${personagem.foto}" alt="${personagem.nome}">`
+    : `<span class="simbolo">${personagem.simbolo}</span>`;
+
+  botao.innerHTML = `
+    ${imagem}
+    <span class="nome-personagem">
+      <strong>${personagem.nome}</strong>
+      <small>Clique para descobrir</small>
+    </span>
+  `;
+
+  botao.onclick = () => abrirPersonagem(indice);
+  containerPersonagens.appendChild(botao);
+});
+
+function abrirPersonagem(indice) {
+  const personagem = personagens[indice];
+
+  // A mesma regra de enquadramento é aplicada à imagem do modal.
+  const classeEnquadramento = (indice === 0 || indice === 2)
+    ? "imagem-enquadrada-topo"
+    : "";
+
+  const foto = personagem.foto
+    ? `<img class="foto-personagem-modal ${classeEnquadramento}" src="${personagem.foto}" alt="${personagem.nome}">`
+    : `<div class="foto-personagem-modal" style="display:flex;align-items:center;justify-content:center;font-size:65px;">${personagem.simbolo}</div>`;
+
+  document.getElementById("detalhesPersonagem").innerHTML = `
+    ${foto}
+    <h2>${personagem.nome}</h2>
+    <p class="descricao-personagem">${personagem.descricao}</p>
+  `;
+
+  document.getElementById("modalPersonagem").classList.add("aberto");
+}
+
+function fecharPersonagem() {
+  document.getElementById("modalPersonagem").classList.remove("aberto");
+}
+
+
+/* FECHAR MODAIS CLICANDO FORA */
+
+document.querySelectorAll(".modal").forEach(modal => {
+  modal.addEventListener("click", evento => {
+    if (evento.target === modal) {
+      modal.classList.remove("aberto");
+    }
+  });
+});
+
+</script>
+
+</body>
+</html>
