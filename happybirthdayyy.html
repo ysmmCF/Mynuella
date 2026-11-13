@@ -10,6 +10,13 @@
   box-sizing: border-box;
 }
 
+:root {
+  --roxo-escuro: #563477;
+  --roxo-medio: #79549a;
+  --roxo-claro: #a77bc4;
+  --lilas: #eadcf3;
+}
+
 body {
   margin: 0;
   background: #17101f;
@@ -38,6 +45,158 @@ body {
   transition: opacity 2s ease;
 }
 
+/* DECORAÇÃO DO FUNDO */
+
+.decoracao-fundo {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+
+.decoracao-fundo.visivel {
+  opacity: 1;
+}
+
+.particula {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.8);
+  box-shadow: 0 0 12px rgba(255,255,255,.8);
+  animation: flutuar 7s ease-in-out infinite;
+}
+
+.particula:nth-child(1) {
+  top: 13%;
+  left: 8%;
+  animation-delay: 0s;
+}
+
+.particula:nth-child(2) {
+  top: 28%;
+  left: 94%;
+  width: 4px;
+  height: 4px;
+  animation-delay: 1.5s;
+}
+
+.particula:nth-child(3) {
+  top: 75%;
+  left: 8%;
+  animation-delay: 2.5s;
+}
+
+.particula:nth-child(4) {
+  top: 88%;
+  left: 88%;
+  width: 6px;
+  height: 6px;
+  animation-delay: 1s;
+}
+
+.particula:nth-child(5) {
+  top: 52%;
+  left: 96%;
+  animation-delay: 3s;
+}
+
+.particula:nth-child(6) {
+  top: 7%;
+  left: 65%;
+  width: 4px;
+  height: 4px;
+  animation-delay: 2s;
+}
+
+@keyframes flutuar {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: .35;
+  }
+  50% {
+    transform: translateY(-22px) scale(1.5);
+    opacity: .9;
+  }
+}
+
+/* CARREGAMENTO DO VÍDEO */
+
+.carregamento {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 19px;
+  background:
+    radial-gradient(ellipse at center, rgba(90,55,117,.35), transparent 60%),
+    #17101f;
+  color: #f1e5fa;
+  text-align: center;
+  transition: opacity .8s ease, visibility .8s ease;
+}
+
+.carregamento.oculto {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.carregamento p {
+  margin: 0;
+  font-size: 15px;
+  letter-spacing: 1px;
+  animation: pulsarTexto 2s ease-in-out infinite;
+}
+
+.carregamento small {
+  color: rgba(241,229,250,.65);
+  font-size: 11px;
+  letter-spacing: .5px;
+}
+
+.carregamento-icone {
+  position: relative;
+  width: 55px;
+  height: 55px;
+  border: 1px solid rgba(255,255,255,.2);
+  border-top: 2px solid #d8b9ed;
+  border-radius: 50%;
+  animation: girar 1.3s linear infinite;
+}
+
+.carregamento-icone::after {
+  content: "♡";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e9d3f7;
+  font-size: 19px;
+  animation: contragiro 1.3s linear infinite;
+}
+
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes contragiro {
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes pulsarTexto {
+  0%, 100% { opacity: .65; }
+  50% { opacity: 1; }
+}
+
 /* BOTÃO PULAR */
 
 .pular-video {
@@ -48,18 +207,19 @@ body {
   padding: 11px 20px;
   border: 1px solid rgba(255,255,255,.6);
   border-radius: 25px;
-  background: rgba(35,20,45,.45);
+  background: rgba(35,20,45,.55);
   color: white;
   font-family: Georgia, serif;
   font-size: 14px;
   cursor: pointer;
-  backdrop-filter: blur(5px);
-  transition: background .2s, transform .2s;
+  backdrop-filter: blur(7px);
+  transition: background .2s, transform .2s, box-shadow .2s;
 }
 
 .pular-video:hover {
-  background: rgba(35,20,45,.7);
+  background: rgba(35,20,45,.8);
   transform: translateY(-2px);
+  box-shadow: 0 5px 18px rgba(0,0,0,.2);
 }
 
 /* PAINEL PRINCIPAL */
@@ -76,29 +236,43 @@ body {
   overflow-y: auto;
 
   background:
-    radial-gradient(ellipse at top, rgba(255,255,255,.55), transparent 55%),
-    linear-gradient(155deg, #eadcf3 0%, #d9c2e9 55%, #c9addf 100%);
+    radial-gradient(ellipse at 10% 5%, rgba(255,255,255,.65), transparent 45%),
+    radial-gradient(ellipse at 100% 90%, rgba(255,255,255,.2), transparent 40%),
+    linear-gradient(155deg, #f0e5f6 0%, #dfcbea 48%, #c9addf 100%);
 
-  border: 1px solid rgba(255,255,255,.7);
+  border: 1px solid rgba(255,255,255,.8);
   border-radius: 23px;
+
   box-shadow:
     0 15px 45px rgba(0,0,0,.28),
-    inset 0 0 25px rgba(255,255,255,.25);
+    inset 0 0 25px rgba(255,255,255,.3),
+    0 0 25px rgba(195,157,221,.12);
 
   opacity: 0;
   visibility: hidden;
-  transform: translateX(-35px);
+  transform: translateX(-45px) scale(.98);
 
   transition:
-    opacity .7s ease,
-    transform .7s cubic-bezier(.22,1,.36,1),
-    visibility .7s;
+    opacity .8s ease,
+    transform .8s cubic-bezier(.22,1,.36,1),
+    visibility .8s;
+}
+
+.painel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20%;
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, white, transparent);
+  opacity: .9;
 }
 
 .painel.visivel {
   opacity: 1;
   visibility: visible;
-  transform: translateX(0);
+  transform: translateX(0) scale(1);
 }
 
 .painel::-webkit-scrollbar {
@@ -117,6 +291,7 @@ body {
 /* CABEÇALHO */
 
 .cabecalho-painel {
+  position: relative;
   text-align: center;
   padding: 7px 0 20px;
   border-bottom: 1px solid rgba(86,52,119,.2);
@@ -128,6 +303,7 @@ body {
   font-size: 15px;
   letter-spacing: 7px;
   margin-bottom: 9px;
+  animation: brilhoSuave 3s ease-in-out infinite;
 }
 
 .painel h2 {
@@ -145,6 +321,11 @@ body {
   letter-spacing: .4px;
 }
 
+@keyframes brilhoSuave {
+  0%, 100% { opacity: .65; }
+  50% { opacity: 1; }
+}
+
 .fechar-painel {
   position: absolute;
   top: 12px;
@@ -154,11 +335,12 @@ body {
   color: #694582;
   font-size: 25px;
   cursor: pointer;
-  transition: transform .2s;
+  transition: transform .3s ease, color .3s;
 }
 
 .fechar-painel:hover {
   transform: rotate(90deg);
+  color: #9a65b8;
 }
 
 /* ATALHOS */
@@ -172,6 +354,7 @@ body {
 }
 
 .atalho {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -180,12 +363,17 @@ body {
   width: 100%;
   min-height: 125px;
   padding: 16px 12px;
+  overflow: hidden;
 
-  border: 1px solid rgba(255,255,255,.65);
+  border: 1px solid rgba(255,255,255,.75);
   border-radius: 17px;
 
-  background: rgba(255,255,255,.32);
-  box-shadow: 0 4px 13px rgba(86,52,119,.07);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.48), rgba(255,255,255,.18));
+
+  box-shadow:
+    0 4px 13px rgba(86,52,119,.07),
+    inset 0 1px 0 rgba(255,255,255,.4);
 
   color: #563477;
   font-family: inherit;
@@ -193,15 +381,33 @@ body {
   cursor: pointer;
 
   transition:
-    background .25s ease,
-    transform .25s ease,
-    box-shadow .25s ease;
+    background .3s ease,
+    transform .3s ease,
+    box-shadow .3s ease,
+    border-color .3s ease;
+}
+
+.atalho::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -110%;
+  width: 65%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
+  transform: skewX(-20deg);
+  transition: left .65s ease;
+}
+
+.atalho:hover::before {
+  left: 150%;
 }
 
 .atalho:hover {
-  background: rgba(255,255,255,.55);
-  transform: translateY(-2px);
-  box-shadow: 0 7px 17px rgba(86,52,119,.12);
+  background: rgba(255,255,255,.58);
+  transform: translateY(-3px);
+  border-color: rgba(255,255,255,.95);
+  box-shadow: 0 9px 20px rgba(86,52,119,.13);
 }
 
 .icone {
@@ -212,18 +418,20 @@ body {
   height: 53px;
 
   border-radius: 50%;
-  background: rgba(255,255,255,.5);
+  background: rgba(255,255,255,.55);
   border: 1px solid rgba(86,52,119,.17);
 
   color: #684486;
   font-size: 29px;
   line-height: 1;
 
-  transition: transform .25s ease;
+  box-shadow: 0 3px 10px rgba(86,52,119,.07);
+  transition: transform .35s ease, background .35s ease;
 }
 
 .atalho:hover .icone {
-  transform: scale(1.08);
+  transform: scale(1.1) rotate(-5deg);
+  background: rgba(255,255,255,.8);
 }
 
 .titulo-atalho {
@@ -245,11 +453,11 @@ body {
   flex-direction: column;
   gap: 8px;
   padding: 12px 14px 5px;
-  animation: aparecerLista .35s ease;
 }
 
 .lista-musicas.aberta {
   display: flex;
+  animation: aparecerLista .4s ease both;
 }
 
 .lista-musicas a {
@@ -262,11 +470,12 @@ body {
   font-size: 14px;
   text-decoration: none;
 
-  background: rgba(255,255,255,.32);
-  border: 1px solid rgba(255,255,255,.45);
+  background: rgba(255,255,255,.38);
+  border: 1px solid rgba(255,255,255,.6);
   border-radius: 10px;
 
-  transition: background .2s, transform .2s;
+  box-shadow: 0 3px 9px rgba(86,52,119,.04);
+  transition: background .25s, transform .25s, box-shadow .25s;
 }
 
 .lista-musicas a::before {
@@ -276,8 +485,9 @@ body {
 }
 
 .lista-musicas a:hover {
-  background: rgba(255,255,255,.65);
-  transform: translateX(3px);
+  background: rgba(255,255,255,.75);
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(86,52,119,.09);
 }
 
 /* LISTAS DE 17 ITENS */
@@ -287,11 +497,11 @@ body {
   flex-direction: column;
   gap: 8px;
   padding: 12px 14px 5px;
-  animation: aparecerLista .35s ease;
 }
 
 .lista-amor.aberta {
   display: flex;
+  animation: aparecerLista .4s ease both;
 }
 
 .lista-amor div {
@@ -304,15 +514,16 @@ body {
   font-size: 14px;
   line-height: 1.5;
 
-  background: rgba(255,255,255,.32);
-  border: 1px solid rgba(255,255,255,.45);
+  background: rgba(255,255,255,.38);
+  border: 1px solid rgba(255,255,255,.55);
   border-radius: 10px;
 
+  box-shadow: 0 3px 9px rgba(86,52,119,.035);
   transition: background .2s, transform .2s;
 }
 
 .lista-amor div:hover {
-  background: rgba(255,255,255,.6);
+  background: rgba(255,255,255,.7);
   transform: translateX(3px);
 }
 
@@ -326,7 +537,7 @@ body {
 @keyframes aparecerLista {
   from {
     opacity: 0;
-    transform: translateY(-7px);
+    transform: translateY(-9px);
   }
   to {
     opacity: 1;
@@ -350,7 +561,7 @@ body {
   content: "";
   flex: 1;
   height: 1px;
-  background: rgba(86,52,119,.2);
+  background: linear-gradient(90deg, transparent, rgba(86,52,119,.25), transparent);
 }
 
 /* PERSONAGENS */
@@ -387,9 +598,9 @@ body {
   width: 100%;
   padding: 10px 12px;
 
-  border: 1px solid rgba(255,255,255,.5);
+  border: 1px solid rgba(255,255,255,.65);
   border-radius: 14px;
-  background: rgba(255,255,255,.27);
+  background: rgba(255,255,255,.34);
 
   cursor: pointer;
   color: #563477;
@@ -397,12 +608,14 @@ body {
   font-size: 14px;
   text-align: left;
 
-  transition: background .2s, transform .2s;
+  box-shadow: 0 3px 10px rgba(86,52,119,.04);
+  transition: background .25s, transform .25s, box-shadow .25s;
 }
 
 .personagem:hover {
-  background: rgba(255,255,255,.55);
-  transform: translateX(3px);
+  background: rgba(255,255,255,.65);
+  transform: translateX(4px);
+  box-shadow: 0 5px 14px rgba(86,52,119,.1);
 }
 
 .personagem img,
@@ -417,7 +630,7 @@ body {
   justify-content: center;
   background: rgba(255,255,255,.55);
   border: 2px solid rgba(86,52,119,.5);
-  transition: transform .2s;
+  transition: transform .3s ease;
 }
 
 /* ENQUADRAMENTO DA GANJI E DA MAVIS */
@@ -433,7 +646,7 @@ body {
 
 .personagem:hover img,
 .personagem:hover .simbolo {
-  transform: scale(1.06);
+  transform: scale(1.07);
 }
 
 .nome-personagem {
@@ -462,12 +675,20 @@ body {
   left: 0;
   top: 45%;
   padding: 13px 12px;
-  border: none;
+  border: 1px solid rgba(255,255,255,.4);
+  border-left: none;
   border-radius: 0 12px 12px 0;
   background: #563477;
   color: white;
   font-size: 24px;
   cursor: pointer;
+  box-shadow: 3px 3px 12px rgba(0,0,0,.2);
+  transition: padding .2s, background .2s;
+}
+
+.reabrir-painel:hover {
+  padding-left: 17px;
+  background: #765092;
 }
 
 /* MODAIS */
@@ -480,13 +701,13 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: rgba(15,8,22,.72);
-  backdrop-filter: blur(4px);
+  background: rgba(15,8,22,.76);
+  backdrop-filter: blur(7px);
 }
 
 .modal.aberto {
   display: flex;
-  animation: surgirModal .3s ease;
+  animation: surgirModal .35s ease;
 }
 
 @keyframes surgirModal {
@@ -501,11 +722,30 @@ body {
   max-height: 85vh;
   overflow-y: auto;
   padding: 35px;
-  border: 1px solid rgba(255,255,255,.7);
+  border: 1px solid rgba(255,255,255,.8);
   border-radius: 20px;
-  background: linear-gradient(145deg, #f2e8f8, #e5d3f0);
+
+  background:
+    radial-gradient(ellipse at top, rgba(255,255,255,.65), transparent 55%),
+    linear-gradient(145deg, #f2e8f8, #e5d3f0);
+
   color: #49305e;
-  box-shadow: 0 15px 45px rgba(0,0,0,.3);
+  box-shadow:
+    0 15px 45px rgba(0,0,0,.3),
+    0 0 25px rgba(213,181,235,.15);
+
+  animation: subirModal .45s cubic-bezier(.22,1,.36,1);
+}
+
+@keyframes subirModal {
+  from {
+    transform: translateY(18px) scale(.98);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
 
 .conteudo-modal h2 {
@@ -524,6 +764,11 @@ body {
   color: #563477;
   font-size: 27px;
   cursor: pointer;
+  transition: transform .2s;
+}
+
+.fechar-modal:hover {
+  transform: rotate(90deg);
 }
 
 /* ANIMAÇÃO DO ENVELOPE */
@@ -543,6 +788,7 @@ body {
   background: #b995d1;
   border-radius: 5px;
   animation: surgirEnvelope .6s ease both;
+  filter: drop-shadow(0 7px 8px rgba(86,52,119,.15));
 }
 
 .envelope-corpo {
@@ -624,6 +870,7 @@ body {
   object-fit: cover;
   border-radius: 50%;
   border: 3px solid #563477;
+  box-shadow: 0 5px 16px rgba(86,52,119,.16);
 }
 
 /* ENQUADRAMENTO NO MODAL DA GANJI E DA MAVIS */
@@ -637,6 +884,8 @@ body {
   line-height: 1.7;
   font-size: 15px;
 }
+
+/* CELULAR */
 
 @media (max-width: 500px) {
   .painel {
@@ -653,6 +902,26 @@ body {
 
   .atalho {
     min-height: 115px;
+  }
+
+  .pular-video {
+    top: 14px;
+    right: 14px;
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+}
+
+/* ACESSIBILIDADE: REDUZIR MOVIMENTOS */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
   }
 }
 </style>
@@ -671,6 +940,25 @@ body {
 <video id="video2" class="video" muted playsinline loop preload="auto">
   <source src="https://ysmmCF.github.io/Mynuella/653606933_1794519814944647.mp4" type="video/mp4">
 </video>
+
+<!-- TELA DE CARREGAMENTO -->
+
+<div class="carregamento" id="carregamento">
+  <div class="carregamento-icone"></div>
+  <p>Preparando uma surpresa...</p>
+  <small>Um instante, por favor ♡</small>
+</div>
+
+<!-- DETALHES DECORATIVOS -->
+
+<div class="decoracao-fundo" id="decoracaoFundo">
+  <span class="particula"></span>
+  <span class="particula"></span>
+  <span class="particula"></span>
+  <span class="particula"></span>
+  <span class="particula"></span>
+  <span class="particula"></span>
+</div>
 
 <button class="pular-video" id="botaoPular" onclick="iniciarTransicao()">
   Pular vídeo →
@@ -696,7 +984,7 @@ body {
       <span class="descricao-atalho">Tenho algumas palavras para te dizer</span>
     </button>
 
-    <button class="atalho" onclick="alternarMusicas()">
+    <button class="atalho" id="botaoMusicas" onclick="alternarMusicas()" aria-expanded="false" aria-controls="listaMusicas">
       <span class="icone">♫</span>
       <span class="titulo-atalho">Músicas que te dedico</span>
       <span class="descricao-atalho">Algumas canções que me lembram você</span>
@@ -726,7 +1014,7 @@ body {
 
   <!-- PRIMEIRA LISTA -->
 
-  <button class="atalho" onclick="alternarListaAmor()">
+  <button class="atalho" onclick="alternarListaAmor()" aria-expanded="false" aria-controls="listaAmor">
     <span class="icone">♡</span>
     <span class="titulo-atalho">17 coisas que amo em você</span>
     <span class="descricao-atalho">Uma pequena lista de motivos</span>
@@ -756,7 +1044,7 @@ body {
 
   <div class="divisoria">✧</div>
 
-  <button class="atalho" onclick="alternarLembrancas()">
+  <button class="atalho" onclick="alternarLembrancas()" aria-expanded="false" aria-controls="listaLembrancas">
     <span class="icone">❀</span>
     <span class="titulo-atalho">17 coisas que me lembram você</span>
     <span class="descricao-atalho">Pequenos detalhes que fazem pensar em você</span>
@@ -826,13 +1114,28 @@ const video1 = document.getElementById("video1");
 const video2 = document.getElementById("video2");
 const painel = document.getElementById("painel");
 const botaoPular = document.getElementById("botaoPular");
+const carregamento = document.getElementById("carregamento");
+const decoracaoFundo = document.getElementById("decoracaoFundo");
 
 let transicaoIniciada = false;
+
+function esconderCarregamento() {
+  carregamento.classList.add("oculto");
+}
+
+video1.addEventListener("canplay", esconderCarregamento, { once: true });
+
+video1.addEventListener("error", () => {
+  carregamento.querySelector("p").textContent = "Não foi possível carregar o vídeo.";
+  carregamento.querySelector("small").textContent = "Você pode pular e continuar a surpresa.";
+});
 
 function iniciarTransicao() {
   if (transicaoIniciada) return;
 
   transicaoIniciada = true;
+
+  esconderCarregamento();
   botaoPular.style.display = "none";
 
   video2.style.display = "block";
@@ -851,12 +1154,12 @@ function iniciarTransicao() {
     });
   });
 
-  // O painel começa a aparecer durante a transição dos vídeos.
+  decoracaoFundo.classList.add("visivel");
+
   setTimeout(() => {
     painel.classList.add("visivel");
   }, 700);
 
-  // O primeiro vídeo desaparece ao final da transição.
   setTimeout(() => {
     video1.pause();
     video1.style.display = "none";
@@ -888,7 +1191,7 @@ function fecharPainel() {
     if (!painel.classList.contains("visivel")) {
       document.getElementById("reabrirPainel").style.display = "block";
     }
-  }, 500);
+  }, 800);
 }
 
 function abrirPainel() {
@@ -903,21 +1206,33 @@ function abrirPainel() {
 /* MÚSICAS */
 
 function alternarMusicas() {
-  document.getElementById("listaMusicas").classList.toggle("aberta");
+  const lista = document.getElementById("listaMusicas");
+  const botao = document.getElementById("botaoMusicas");
+
+  lista.classList.toggle("aberta");
+  botao.setAttribute("aria-expanded", lista.classList.contains("aberta"));
 }
 
 
 /* 17 COISAS QUE AMO EM VOCÊ */
 
 function alternarListaAmor() {
-  document.getElementById("listaAmor").classList.toggle("aberta");
+  const lista = document.getElementById("listaAmor");
+  lista.classList.toggle("aberta");
+
+  const botao = lista.previousElementSibling;
+  botao.setAttribute("aria-expanded", lista.classList.contains("aberta"));
 }
 
 
 /* 17 COISAS QUE ME LEMBRAM VOCÊ */
 
 function alternarLembrancas() {
-  document.getElementById("listaLembrancas").classList.toggle("aberta");
+  const lista = document.getElementById("listaLembrancas");
+  lista.classList.toggle("aberta");
+
+  const botao = lista.previousElementSibling;
+  botao.setAttribute("aria-expanded", lista.classList.contains("aberta"));
 }
 
 
